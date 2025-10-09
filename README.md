@@ -20,9 +20,9 @@ CUDA >= 11.0<br>
 We use an NVIDIA RTX 3090 GPU to achieve this task. If you are using hardware of other models, please adapt the versions of tools such as CUDA and pytorch by yourself.
 
 **Installation**
-
-> conda env create -f environment.yml
-
+```
+conda env create -f environment.yml
+```
 
 ## Datasets
 
