@@ -6,7 +6,7 @@
 
 <sup>2</sup>School of Software Technology, Dalian University of Technology
 </center>
-<img src="./fig.png">
+<img src="./figs/fig.png">
 
 ## Updates
 [2025-09-18] Our paper has been accepted by NeurIPS 2025!
@@ -29,6 +29,9 @@ Please download UDIS-D dataset([Google Drive](https://drive.google.com/drive/fol
 
 Please first use [DepthAnything](https://github.com/DepthAnything/Depth-Anything-V2/tree/main) to generate the depth map of the dataset.
 
+**pre-trained model**
+
+Please download the pre-trained model([Google Drive](https://drive.google.com/drive/folders/1qsvIj7iN62gdHJLytTAzfvrOZaGaqXzR) or [Baidu Yun](https://pan.baidu.com/s/1VpBGxePAbQoL7IbNspQMuA?pwd=2025)) and place it in the corresponding path.
 
 ## How to Run
 
@@ -65,8 +68,8 @@ Please set the training dataset path in Warp/newCodes/test_output.py and Fusion/
 
 ***Please note that, similar to the training phase, the testing phase still has sequential nature.***
 
-## Download
-Please download the pre-trained model([Google Drive](https://drive.google.com/drive/folders/1qsvIj7iN62gdHJLytTAzfvrOZaGaqXzR) or [Baidu Yun](https://pan.baidu.com/s/1VpBGxePAbQoL7IbNspQMuA?pwd=2025)) and place it in the corresponding path.
+
+
 
 ## Any Question
 If you have any other questions about the code, please email: yanruhao1997@hotmail.com
