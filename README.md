@@ -76,11 +76,11 @@ Please set the training dataset path in Warp/newCodes/test_output.py and Fusion/
 
 **Visual comparison of stitched images from UDIS-D dataset and IVSD dataset.**
 
-<img src="./figs/fig2.png">
+<img src="./figs/fig2.png",width = 90%>
 
 **Quantitative comparison on UDIS-D and IVSD datasets.**
 
-<img src="./figs/fig1.png">
+<img src="./figs/fig1.png", width = 90%>
 
 
 
