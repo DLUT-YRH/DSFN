@@ -29,7 +29,7 @@ Please download UDIS-D dataset([Google Drive](https://drive.google.com/drive/fol
 
 Please first use [DepthAnything](https://github.com/DepthAnything/Depth-Anything-V2/tree/main) to generate the depth map of the dataset.
 
-**pre-trained model**
+**pre-trained models**
 
 Please download the pre-trained model([Google Drive](https://drive.google.com/drive/folders/1qsvIj7iN62gdHJLytTAzfvrOZaGaqXzR) or [Baidu Yun](https://pan.baidu.com/s/1VpBGxePAbQoL7IbNspQMuA?pwd=2025)) and place it in the corresponding path.
 
@@ -68,6 +68,13 @@ Please set the training dataset path in Warp/newCodes/test_output.py and Fusion/
 
 ***Please note that, similar to the training phase, the testing phase still has sequential nature.***
 
+## Experimental Results
+
+**Visual comparison of stitched images from UDIS-D dataset and IVSD dataset.**
+<img src="./figs/fig2.png">
+
+**Quantitative comparison on UDIS-D and IVSD datasets.**
+<img src="./figs/fig1.png">
 
 
 
