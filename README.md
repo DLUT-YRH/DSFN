@@ -13,6 +13,7 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 
 ## Updates
 [2025-09-18] Our paper has been accepted by NeurIPS 2025!
+
 [2025-10-09] The code and the pre-trained model are available.
 
 ## Code
