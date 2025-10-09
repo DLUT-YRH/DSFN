@@ -5,5 +5,13 @@
 <sup>1</sup>College of Information Science and Technology, Dalian Maritime University
 
 <sup>2</sup>School of Software Technology, Dalian University of Technology
+
 <img src="./fig.png">
 </center>
+
+## Code
+**Requirement**
+numpy >= 1.19.5<br>
+pytorch >= 1.7.1<br>
+CUDA >= 11.0<br>
+We use an NVIDIA RTX 3090 GPU to achieve this task. If you are using hardware of other models, please adapt the versions of tools such as CUDA and pytorch by yourself.
