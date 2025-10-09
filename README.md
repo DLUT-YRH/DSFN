@@ -1,11 +1,14 @@
 # Depth-Supervised Fusion Network for Seamless-Free Image Stitching [NeurIPS 2025]
 
-<center>Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2</sup> &ensp; Bowei Zhang<sup>2</sup> &ensp; Jinyuan Liu<sup>2</sup>
+Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2</sup> &ensp; Bowei Zhang<sup>2</sup> &ensp; Jinyuan Liu<sup>2</sup>
+
 
 <sup>1</sup>College of Information Science and Technology, Dalian Maritime University
 
 <sup>2</sup>School of Software Technology, Dalian University of Technology
-</center>
+
+
+
 <img src="./figs/fig.png">
 
 ## Updates
@@ -71,9 +74,11 @@ Please set the training dataset path in Warp/newCodes/test_output.py and Fusion/
 ## Experimental Results
 
 **Visual comparison of stitched images from UDIS-D dataset and IVSD dataset.**
+
 <img src="./figs/fig2.png">
 
 **Quantitative comparison on UDIS-D and IVSD datasets.**
+
 <img src="./figs/fig1.png">
 
 
