@@ -10,7 +10,7 @@
 </center>
 
 ## Code
-**Requirement**
+**Requirement**<br>
 numpy >= 1.19.5<br>
 pytorch >= 1.7.1<br>
 CUDA >= 11.0<br>
