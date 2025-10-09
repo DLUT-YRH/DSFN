@@ -5,9 +5,9 @@
 <sup>1</sup>College of Information Science and Technology, Dalian Maritime University
 
 <sup>2</sup>School of Software Technology, Dalian University of Technology
-
-<img src="./fig.png">
 </center>
+<img src="./fig.png">
+
 
 ## Code
 **Requirements**
