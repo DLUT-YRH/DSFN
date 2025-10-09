@@ -1,14 +1,17 @@
 # Depth-Supervised Fusion Network for Seamless-Free Image Stitching [NeurIPS 2025]
 <p align="center">
 Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2</sup> &ensp; Bowei Zhang<sup>2</sup> &ensp; Jinyuan Liu<sup>2</sup>
+</p>
 
-
+<p align="center">
 <sup>1</sup>College of Information Science and Technology, Dalian Maritime University
+</p>
 
+<p align="center">
 <sup>2</sup>School of Software Technology, Dalian University of Technology
+</p>
 
-
-
+<p align="center">
 <img src="./figs/fig.png">
 </p>
 
