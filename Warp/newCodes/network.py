@@ -255,83 +255,7 @@ def build_train_model(net, input1_tensor, input2_tensor, depthInput1_tensor, dep
     overlap_one = torch.ones_like(overlap)
     overlap_zero = torch.zeros_like(overlap)
     overlap = torch.where(overlap<0.9, overlap_one, overlap_zero)
-
-    ## ------------------------------------------------- ##
-    
-#     # initialize the source points bs x 4 x 2
-#     depth_src_p = torch.tensor([[0., 0.], [img_w, 0.], [0., img_h], [img_w, img_h]])
-#     if torch.cuda.is_available():
-#         depth_src_p = depth_src_p.cuda()
-#     depth_src_p = depth_src_p.unsqueeze(0).expand(batch_size, -1, -1)
-#     # target points
-#     depth_dst_p = depth_src_p + depth_H_motion
-#     # solve homo using DLT
-#     depth_H = torch_DLT.tensor_DLT(depth_src_p, depth_dst_p)
-        
-#     depth_rigid_mesh = get_rigid_mesh(batch_size, img_h, img_w)
-#     depth_ini_mesh = H2Mesh(depth_H, depth_rigid_mesh)
-#     depth_mesh = depth_ini_mesh + depth_mesh_motion
-
-#     depth_width_max = torch.max(depth_mesh[...,0])
-#     depth_width_max = torch.maximum(torch.tensor(img_w).cuda(), depth_width_max)
-#     depth_width_min = torch.min(depth_mesh[...,0])
-#     depth_width_min = torch.minimum(torch.tensor(0).cuda(), depth_width_min)
-#     depth_height_max = torch.max(depth_mesh[...,1])
-#     depth_height_max = torch.maximum(torch.tensor(img_h).cuda(), depth_height_max)
-#     depth_height_min = torch.min(depth_mesh[...,1])
-#     depth_height_min = torch.minimum(torch.tensor(0).cuda(), depth_height_min)
-
-#     depth_out_width = depth_width_max - depth_width_min
-#     depth_out_height = depth_height_max - depth_height_min
-
-#     # get warped depth img1
-#     depth_M_tensor = torch.tensor([[depth_out_width / 2.0, 0., depth_out_width / 2.0],
-#                       [0., depth_out_height / 2.0, depth_out_height / 2.0],
-#                       [0., 0., 1.]])
-#     depth_N_tensor = torch.tensor([[img_w / 2.0, 0., img_w / 2.0],
-#                       [0., img_h / 2.0, img_h / 2.0],
-#                       [0., 0., 1.]])
-#     if torch.cuda.is_available():
-#         depth_M_tensor = depth_M_tensor.cuda()
-#         depth_N_tensor = depth_N_tensor.cuda()
-#     depth_N_tensor_inv = torch.inverse(depth_N_tensor)
-
-#     depth_I_ = torch.tensor([[1., 0., depth_width_min],
-#                       [0., 1., depth_height_min],
-#                       [0., 0., 1.]])#.unsqueeze(0)
-#     depth_mask = torch.ones_like(depthInput2_tensor)
-
-#     if torch.cuda.is_available():
-#         depth_I_ = depth_I_.cuda()
-#         depth_mask = depth_mask.cuda()
-#     depth_I_mat = torch.matmul(torch.matmul(depth_N_tensor_inv, depth_I_), depth_M_tensor).unsqueeze(0)
-
-#     depth_homo_output = torch_homo_transform.transformer(torch.cat((depthInput1_tensor+1, depth_mask), 1), depth_I_mat, (depth_out_height.int(), depth_out_width.int()))
-
-#     torch.cuda.empty_cache()
-
-#     # get warped depth img2
-#     depth_mesh_trans = torch.stack([depth_mesh[...,0]-depth_width_min, mesh[...,1]-depth_height_min], 3)
-#     depth_norm_rigid_mesh = get_norm_mesh(depth_rigid_mesh, img_h, img_w)
-#     depth_norm_mesh = get_norm_mesh(depth_mesh_trans, depth_out_height, depth_out_width)
-#     depth_tps_output = torch_tps_transform.transformer(torch.cat([depthInput2_tensor+1, depth_mask],1), depth_norm_mesh, depth_norm_rigid_mesh, (depth_out_height.int(), depth_out_width.int()))
-
-#     depth_warp1 = depth_homo_output[:, 0:3, ...]-1
-
-#     depth_warp2 = depth_tps_output[:, 0:3, ...]-1
-
-#     depth_mask1 = depth_homo_output[:, 3:6, ...]
-
-#     depth_mask2 = depth_tps_output[:, 3:6, ...]
-
-#     print("depth_mask1.shape :")
-#     print(depth_mask1.shape)
-#     print("output_H.shape :")
-#     print(output_H.shape)
-#     print("output_H_inv.shape :")
-#     print(output_H_inv.shape)
-
-
+ 
     out_dict = {}
     out_dict.update(output_H=output_H, output_H_inv = output_H_inv, warp_mesh = warp_mesh, warp_mesh_mask = warp_mesh_mask, mesh1 = rigid_mesh, mesh2 = mesh, overlap = overlap)#, depth_warp1 = depth_warp1, depth_warp2 = depth_warp2, depth_mask1 = depth_mask1, depth_mask2 = depth_mask2)
 
@@ -432,27 +356,6 @@ def build_depth_output_model(net, input1_tensor, input2_tensor, depthInput1_tens
     out_dict.update(final_warp1=homo_output[:, 0:3, ...]-1, final_warp1_mask = homo_output[:, 3:6, ...], final_warp2=tps_output[:, 0:3, ...]-1, final_warp2_mask = tps_output[:, 3:6, ...], mesh1=rigid_mesh, mesh2=mesh_trans, depth_warp1 = depth_homo_output[:, 0, ...]-1, depth_warp2 = depth_tps_output[:, 0, ...]-1)
 
     return out_dict
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -686,14 +589,6 @@ class RepConvN(nn.Module):
             self.__delattr__('id_tensor')
 
 
-
-
-
-
-
-
-
-
 # define and forward
 class Network(nn.Module):
 
@@ -811,10 +706,6 @@ class Network(nn.Module):
         feature_1_32 = self.feature_extractor_stage2(feature_1_64)
         feature_2_64 = self.feature_extractor_stage1(input2_tesnor)
         feature_2_32 = self.feature_extractor_stage2(feature_2_64)
-#         print("feature_1_64.shape:",feature_1_64.shape)
-#         print("feature_1_32.shape:",feature_1_32.shape)
-#         print("feature_2_64.shape:",feature_2_64.shape)
-#         print("feature_2_32.shape:",feature_2_32.shape)
         ######### stage 1
         correlation_32 = self.CCL(feature_1_32, feature_2_32)
         temp_1 = self.regressNet1_part1(correlation_32)
