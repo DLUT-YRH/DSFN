@@ -43,12 +43,6 @@ def train(args):
 
     if torch.cuda.is_available():
         net = net.cuda()
-
-#     # transform for deployment
-#     for m in net.modules():
-#         if isinstance(m, RepConvN):
-#             m.fuse_convs()
-#             m.forward = m.forward_fuse  # update forward 
             
     # define the optimizer and learning rate
     optimizer = optim.Adam(net.parameters(), lr=1e-4, betas=(0.9, 0.999), eps=1e-08)  # default as 0.0001
@@ -120,34 +114,16 @@ def train(args):
             boundary_loss = 10000 * boundary_loss
 
             #  smooth term
-            # on stitched image # smooth1_loss is smooth loss
             smooth1_loss = cal_smooth_term_stitch(stitched_image, learned_mask1)# cal_smooth_term_stitch_new
-            #smooth1_loss = cal_smooth_term_stitch_new(stitched_image, learned_mask1, learned_mask2)
-#             print('smooth1_loss:{}'.format(smooth1_loss))
             smooth1_loss = 1000 * smooth1_loss
-            # on different image # smooth2_loss is cost loss
             smooth2_loss = cal_smooth_term_diff_new( warp1_tensor,  warp2_tensor, learned_mask1, learned_mask2, mask1_tensor*mask2_tensor)
-            # smooth2_loss = cal_smooth_term_diff( warp1_tensor,  warp2_tensor, learned_mask1, mask1_tensor*mask2_tensor)
-#             print('smooth2_loss:{}'.format(smooth2_loss))
             smooth2_loss = 1000 * smooth2_loss
-
-            # seam area gradient
-#             seam_area_gradient_loss = cal_seam_area_loss(warp1_tensor, warp2_tensor, learned_mask1, learned_mask2, stitched_image)
-#             print(seam_area_gradient_loss)
-#             print('seam_area_gradient_loss:{}'.format(seam_area_gradient_loss))
-#             seam_area_gradient_loss = 1000 * seam_area_gradient_loss
-
-            # depth difference not normalization
             depth_diff_loss = cal_depth_diff_loss(depth_warp1_tensor, depth_warp2_tensor, learned_mask1, learned_mask2)
-#             print('depth_diff_loss:{}'.format(depth_diff_loss))
             depth_diff_loss = 10 * depth_diff_loss
     
-            # for Ablation Study change total_loss and backward.
-#             total_loss = boundary_loss + smooth1_loss + smooth2_loss + depth_diff_loss # add (seam_area_gradient_loss) will be nan loss
-            # smooth1_loss is Ls loss in paper, smooth2_loss is Ld loss.
-            total_loss = boundary_loss + smooth2_loss  # + depth_diff_loss + smooth1_loss 
-#             total_loss = boundary_loss + smooth1_loss + depth_diff_loss # without smooth2_loss 
-            # total_loss = boundary_loss + smooth2_loss + depth_diff_loss # without smooth1_loss
+          
+            total_loss = boundary_loss + smooth2_loss + depth_diff_loss + smooth1_loss 
+
             total_loss.backward()
             # clip the gradient
             torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=3, norm_type=2)
@@ -157,7 +133,7 @@ def train(args):
             sigma_boundary_loss += boundary_loss.item()
             sigma_smooth1_loss += smooth1_loss.item()
             sigma_smooth2_loss += smooth2_loss.item()
-#             sigma_seam_area_gradient_loss += seam_area_gradient_loss.item()
+
             sigma_depth_diff_loss += depth_diff_loss.item()
             sigma_total_loss += total_loss.item()
             
@@ -169,19 +145,16 @@ def train(args):
                 average_boundary_loss = sigma_boundary_loss/ score_print_fre
                 average_smooth1_loss = sigma_smooth1_loss/ score_print_fre
                 average_smooth2_loss = sigma_smooth2_loss/ score_print_fre
-#                 average_seam_area_gradient_loss = sigma_seam_area_gradient_loss / score_print_fre
                 average_depth_diff_loss = sigma_depth_diff_loss / score_print_fre
 
                 sigma_total_loss = 0.
                 sigma_boundary_loss = 0.
                 sigma_smooth1_loss = 0.
                 sigma_smooth2_loss = 0.
-#                 sigma_seam_area_gradient_loss = 0.
                 sigma_depth_diff_loss = 0.
 
 
                 print("Training: Epoch[{:0>3}/{:0>3}] Iteration[{:0>3}]/[{:0>3}] Total Loss: {:.4f}   boundary loss: {:.4f}  smooth loss: {:.4f}  diff loss: {:.4f}  depth diff loss:{:.4f}  lr={:.8f}".format(epoch + 1, args.max_epoch, i + 1, len(train_loader), average_total_loss, average_boundary_loss, average_smooth1_loss, average_smooth2_loss, average_depth_diff_loss, optimizer.state_dict()['param_groups'][0]['lr']))
-#                 print("Training: Epoch[{:0>3}/{:0>3}] Iteration[{:0>3}]/[{:0>3}] Total Loss: {:.4f}   boundary loss: {:.4f}  smooth loss: {:.4f}  diff loss: {:.4f}  seam area gradient loss:{:.4f}  depth diff loss:{:.4f}  lr={:.8f}".format(epoch + 1, args.max_epoch, i + 1, len(train_loader), average_total_loss, average_boundary_loss, average_smooth1_loss, average_smooth2_loss, average_seam_area_gradient_loss, average_depth_diff_loss, optimizer.state_dict()['param_groups'][0]['lr']))
 
                 # visualization
                 writer.add_image("inpu1", (warp1_tensor[0]+1.)/2., glob_iter)
@@ -198,7 +171,6 @@ def train(args):
                 writer.add_scalar('average_boundary_loss', average_boundary_loss, glob_iter)
                 writer.add_scalar('average_smooth1_loss', average_smooth1_loss, glob_iter)
                 writer.add_scalar('average_smooth2_loss', average_smooth2_loss, glob_iter)
-#                 writer.add_scalar('average_seam_area_gradient_loss', average_seam_area_gradient_loss, glob_iter)
                 writer.add_scalar('average_depth_diff_loss', average_depth_diff_loss, glob_iter)
 
             glob_iter += 1
@@ -208,7 +180,7 @@ def train(args):
         # save model
         # for Ablation Study , only save epoch 50
         if ((epoch+1) % 50 == 0 or (epoch+1)==args.max_epoch):
-            filename ='epoch' + str(epoch+1).zfill(3) + '_model_without_depth_smooth_loss.pth'
+            filename ='epoch' + str(epoch+1).zfill(3) + '_model_.pth'
             model_save_path = os.path.join(MODEL_DIR, filename)
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch+1, "glob_iter": glob_iter}
             torch.save(state, model_save_path)
@@ -236,5 +208,6 @@ if __name__=="__main__":
     print('<==================== jump into training function ===================>\n')
     #nl: rain
     train(args)
+
 
 
