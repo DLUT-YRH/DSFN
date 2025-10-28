@@ -11,9 +11,9 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 <sup>2</sup>School of Software Technology, Dalian University of Technology
 </p>
 
-<p align="center">
-  [Arxiv](https://arxiv.org/abs/2510.21396)
-</p>
+
+ [Arxiv](https://arxiv.org/abs/2510.21396)
+
 
 
 <p align="center">
