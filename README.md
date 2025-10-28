@@ -1,4 +1,4 @@
-# Depth-Supervised Fusion Network for Seamless-Free Image Stitching [NeurIPS 2025]
+# Depth-Supervised Fusion Network for Seamless-Free Image Stitching [NeurIPS 2025] [*Arxiv*](https://arxiv.org/abs/2510.21396)
 <p align="center">
 Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2</sup> &ensp; Bowei Zhang<sup>2</sup> &ensp; Jinyuan Liu<sup>2</sup>
 </p>
@@ -12,7 +12,7 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 </p>
 
 
- [Arxiv](https://arxiv.org/abs/2510.21396)
+
 
 
 
