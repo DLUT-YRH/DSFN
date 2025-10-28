@@ -12,7 +12,7 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 </p>
 
 <p align="center">
-[\[Arxiv\]](https://arxiv.org/abs/2510.21396)
+  [Arxiv](https://arxiv.org/abs/2510.21396)
 </p>
 
 
