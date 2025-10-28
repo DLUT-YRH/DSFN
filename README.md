@@ -16,7 +16,6 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 </p>
 
 
-
 <p align="center">
 <img src="./figs/fig.png">
 </p>
