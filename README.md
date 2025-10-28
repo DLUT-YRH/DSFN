@@ -12,9 +12,11 @@ Zhiying Jiang<sup>1</sup> &ensp; Ruhao Yan<sup>2</sup> &ensp; Zengxi Zhang<sup>2
 </p>
 
 <p align="center">
-School of Software Technology, Dalian University of Technology
+[\[Arxiv\]](https://arxiv.org/abs/2510.21396)
 </p>
-[[Arxiv]](https://arxiv.org/abs/2510.21396)
+
+
+
 <p align="center">
 <img src="./figs/fig.png">
 </p>
