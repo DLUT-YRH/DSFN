@@ -114,13 +114,9 @@ def train(args):
             # conf
             overlap_depth_loss = 0.3 * overlap_depth_loss
             
-            # for Ablation Study change total_loss and backward.
-            total_loss = overlap_loss + 0.0001 * nonoverlap_loss #+ 0.0001 * overlap_depth_loss
-#             total_loss = overlap_loss + overlap_depth_loss # without nonoverlap_loss
-            # total_loss = nonoverlap_loss + overlap_depth_loss # without overlap_loss
-#             total_loss = overlap_loss # + nonoverlap_loss + overlap_depth_loss without nonoverlap_loss and depth_loss
+
+            total_loss = overlap_loss +  nonoverlap_loss +  overlap_depth_loss
             total_loss.backward()
-#             print(overlap_loss)
             # clip the gradient
             torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=3, norm_type=2)
             optimizer.step()
@@ -162,7 +158,7 @@ def train(args):
         # save model
         # for Ablation Study , only save epoch 50 and eopch 100
         if ((epoch+1) % 100 == 0 or (epoch+1)==args.max_epoch):
-            filename ='epoch' + str(epoch+1).zfill(3) + '_model_without_depth_non_loss.pth'
+            filename ='epoch' + str(epoch+1).zfill(3) + '_model_.pth'
             model_save_path = os.path.join(MODEL_DIR, filename)
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch+1, "glob_iter": glob_iter}
             torch.save(state, model_save_path)
@@ -189,6 +185,7 @@ if __name__=="__main__":
 
     # train
     train(args)
+
 
 
 
