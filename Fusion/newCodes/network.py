@@ -71,63 +71,6 @@ class DownBlock(nn.Module):
     def forward(self, x):
         return self.layer(x)
 
-
-# class RepConvN(nn.Module):
-#     default_act = nn.ReLU(inplace=True)  # default activation
-
-#     def __init__(self, inchannels, outchannels, kernel_size=3, stride=1, padding=1, groups=1, dilation=1, act=False):
-#         super().__init__()
-#         assert (k == 3 or k == (3, 3)) and p == 1
-#         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
-
-#         self.conv1 = nn.Conv2d(c1, c2, k, s, 1, groups=g, bias=False)
-#         self.conv2 = nn.Conv2d(c1, c2, 1, s, 0, groups=g, bias=False)
-
-#     def forward_fuse(self, x):
-#         return self.act((self.conv(x)))
-
-#     def forward(self, x):
-#         return self.act((self.conv1(x) + self.conv2(x)))
-
-#     def get_equivalent_kernel_bias(self):
-#         """Returns equivalent kernel and bias by adding 3x3 kernel, 1x1 kernel and identity kernel with their biases."""
-#         kernel3x3 = self.conv1.weight
-#         kernel1x1 = self.conv2.weight
-#         return kernel3x3 + self._pad_1x1_to_3x3_tensor(kernel1x1)
-
-#     def _pad_1x1_to_3x3_tensor(self, kernel1x1):
-#         """Pads a 1x1 tensor to a 3x3 tensor."""
-#         if kernel1x1 is None:
-#             return 0
-#         else:
-#             return F.pad(kernel1x1, [1, 1, 1, 1])  # (left, right, top, bottom)
-
-#     def fuse_convs(self):
-#         """Combines two convolution layers into a single layer and removes unused attributes from the class."""
-#         if hasattr(self, 'conv'):
-#             return
-#         kernel = self.get_equivalent_kernel_bias()
-#         self.conv = nn.Conv2d(in_channels=self.conv1.in_channels,
-#                               out_channels=self.conv1.out_channels,
-#                               kernel_size=self.conv1.kernel_size,
-#                               stride=self.conv1.stride,
-#                               padding=self.conv1.padding,
-#                               dilation=self.conv1.dilation,
-#                               groups=self.conv1.groups,
-#                               bias=False).requires_grad_(False)
-#         self.conv.weight.data = kernel
-#         for para in self.parameters():
-#             para.detach_()
-#         self.__delattr__('conv1')
-#         self.__delattr__('conv2')
-#         if hasattr(self, 'nm'):
-#             self.__delattr__('nm')
-#         if hasattr(self, 'bn'):
-#             self.__delattr__('bn')
-#         if hasattr(self, 'id_tensor'):
-#             self.__delattr__('id_tensor')
-
-
 class RepConvN(nn.Module):
     default_act = nn.ReLU(inplace=True)  # default activation
 
@@ -193,17 +136,6 @@ class UpBlock(nn.Module):
             nn.ReLU(inplace=True)
             )
 
-        # self.conv = DiverseBranchBlock(inchannels, outchannels, kernel_size, 1, padding)
-
-
-
-
-        # self.conv = nn.Sequential(
-        #     RepConvN(inchannels, outchannels, kernel_size=3, padding=1, dilation = dilation),   # RepConvN   YOLOV7
-        #     nn.ReLU(inplace=True),
-        #     DiverseBranchBlock(inchannels, outchannels, kernel_size, 1, padding),     # DBB   CVPR21
-        #     nn.ReLU(inplace=True)
-        # )
 
         self.conv = nn.Sequential(
             RepConvN(inchannels, outchannels, kernel_size=3, padding=1, dilation = dilation),
