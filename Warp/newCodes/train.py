@@ -83,7 +83,7 @@ def train(args):
                 inpu1_tesnor = inpu1_tesnor.cuda()
                 inpu2_tesnor = inpu2_tesnor.cuda()
                 depthInput1_tensor = depthInput1_tensor.cuda()
-                depthInput2_tensor = depthInput1_tensor.cuda()
+                depthInput2_tensor = depthInput2_tensor.cuda()
 
             # forward, backward, update weights
             optimizer.zero_grad()
